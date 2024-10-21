@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('payment', function (Blueprint $table) {
             $table->id();
-            $table->foreign('order_id');
+            $table->foreignId('order_id');
             $table->enum('payment_method', ['cash', 'transfer']);
             $table->decimal('total', 8, 2);
             $table->boolean('isConfirmed')->default(false);

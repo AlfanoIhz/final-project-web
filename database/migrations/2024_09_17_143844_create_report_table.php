@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('report', function (Blueprint $table) {
             $table->id();
-            $table-date('date');
+            $table->date('date');
             $table->integer('total_orders');
             $table->decimal('total_income', 8, 2);
             $table->timestamps();
