@@ -2,11 +2,11 @@
 
 @section('content')
     <!-- Hero Section -->
-    <section class="hero bg-dark text-white text-center" style="background-image: url('{{ asset('assets/img/caffe.jpg') }}'); background-size: cover; height: 500px;">
+    <section class="bg-dark bg-cover text-white text-center min-vh-100 d-flex justify-content-center align-items-center" style="background-image: url('{{ asset('assets/img/caffe.jpg') }}'); background-size: cover; background-position: center;">
         <div class="d-flex h-100 justify-content-center align-items-center">
             <div class="content">
                 <h1>Welcome</h1>
-                <a href="#find-table" class="btn btn-primary">Find a Table</a>
+                <a href="#find-table" class="btn btn-light">Find a Table</a>
             </div>
         </div>
     </section>
