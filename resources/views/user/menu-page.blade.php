@@ -26,7 +26,7 @@
             <button class="btn btn-outline-brown">Milk</button>
         </div>
         
-        <!-- Menu Items -->
+        <!-- Menu Items --> 
         <div class="row">
             @foreach ($menus as $menu)
                 <div class="col-md-4 mb-4">
@@ -34,8 +34,8 @@
                         <img src="{{ $menu->image }}" class="card-img-top" alt="{{ $menu->menu_name }}">
                         <div class="card-body text-center">
                             <h5 class="card-title">{{ $menu->menu_name }}</h5>
+                            <p class="card-text">${{ $menu->description }}</p>
                             <p class="card-text">${{ number_format($menu->price, 2) }}</p>
-
                             @if($menu->isAvailable)
                                 <!-- Form to add item to order -->
                                 <form action="{{ route('menu.addToOrder', $menu->id) }}" method="POST">

@@ -48,7 +48,7 @@
         <div class="vh-100 col-md-2 bg-white d-flex flex-column p-3" style="min-width: 15%;">
         <h3 class="text-center mb-4" style="color: #8B4513; text-shadow: 1px 1px 2px">Caffeine</h3>
         <ul class="nav flex-column">
-            <li class="nav-item mb-3"><a href="#" class="nav-link active">Menu</a></li>
+            <li class="nav-item mb-3"><a href="#" class="nav-link">Menu</a></li>
             <li class="nav-item mb-3"><a href="#" class="nav-link">Table Services</a></li>
             <li class="nav-item mb-3"><a href="#" class="nav-link">Reservation</a></li>
             <li class="nav-item mb-3"><a href="#" class="nav-link">Accounting</a></li>
