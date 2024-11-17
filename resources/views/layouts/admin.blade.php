@@ -3,69 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caffeine</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav .nav-link {
+            color: #8B4513; 
+            border-radius: 5px;
+        }
+
+        .sidebar-nav .nav-link.active, 
+        .sidebar-nav .nav-link:hover {
+            box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.3);
+            background-color: #8B4513; 
+            color: white !important; 
+            padding: 8px 12px;
+        }
+
+        .content-area {
+            height: calc(100vh - 50px); 
+            overflow-y: auto;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px;">
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-        <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-        <span class="fs-4">Sidebar</span>
-    </a>
-    <hr>
-    <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item">
-        <a href="#" class="nav-link active" aria-current="page">
-            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"></use></svg>Home</a>
-        </li>
-        <li>
-        <a href="#" class="nav-link link-body-emphasis">
-            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>Dashboard</a>
-        </li>
-        <li>
-        <a href="#" class="nav-link link-body-emphasis">
-            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
-            Orders
-        </a>
-        </li>
-        <li>
-        <a href="#" class="nav-link link-body-emphasis">
-            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
-            Products
-        </a>
-        </li>
-        <li>
-            <a href="#" class="nav-link link-body-emphasis">
-                <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>Customers</a>
-        </li>
-    </ul>
-    <hr>
-    <div class="dropdown">
-      <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-        <strong>mdo</strong>
-      </a>
-      <ul class="dropdown-menu text-small shadow">
-        <li><a class="dropdown-item" href="#">New project...</a></li>
-        <li><a class="dropdown-item" href="#">Settings</a></li>
-        <li><a class="dropdown-item" href="#">Profile</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#">Sign out</a></li>
-      </ul>
+    <header>
+        <nav class="navbar bg-body-tertiary border-bottom mt-1">
+            <div class="container-fluid mx-4">
+                <a href="{{ route('admin.dashboard') }}" class="logo">
+                    <img src="{{ asset('assets/img/caffeine.png') }}" alt="caffeine" class="" style="width:100%; height:35px;">
+                </a>
+                <ul>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Welcome, {{ auth()->user()->name }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="left: auto; right: 0;">
+                            <form action="{{ route('admin.logout') }}" method="post">
+                                @csrf
+                                <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right"></i> Logout</button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="row flex-nowrap" style="overflow: hidden;">
+        <div class="col-md-2 bg-white d-flex flex-column p-3" style="min-width: 15%;">
+            <ul class="nav flex-column sidebar-nav">
+                <li class="nav-item mb-3"><a href="#" class="nav-link active"><i class="bi bi-layout-text-window-reverse"></i> Dashboard</a></li>
+                <li class="nav-item mb-3"><a href="#" class="nav-link">Menu</a></li>
+                <li class="nav-item mb-3"><a href="#" class="nav-link">Sales</a></li>
+            </ul>
+        </div>
+
+        <div class="col-md-10 content-area" style="background-color: #f1f1f1;">
+            @yield('content')
+        </div>
     </div>
-  </div>
-
-    <!-- Main Content -->
-    <main>
-        @yield('content')
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-4">
-        <p>&copy; 2024 Caffeine. All rights reserved.</p>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
