@@ -2,45 +2,25 @@
 
 @section('content')
 <div class="row vh-100">
-    <!-- Sidebar -->
-    <!--
-    <div class="col-md-2 bg-white d-flex flex-column p-3" style="min-width: 15%;">
-        <h3 class="text-center mb-4">Caffeine</h3>
-        <ul class="nav flex-column">
-            <li class="nav-item mb-3"><a href="#" class="nav-link active">Menu</a></li>
-            <li class="nav-item mb-3"><a href="#" class="nav-link">Table Services</a></li>
-            <li class="nav-item mb-3"><a href="#" class="nav-link">Reservation</a></li>
-            <li class="nav-item mb-3"><a href="#" class="nav-link">Accounting</a></li>
-            <li class="nav-item mb-3"><a href="#" class="nav-link">Settings</a></li>
-        </ul>
-    </div>
-    -->
-
     <!-- Menu Content -->
     <div class="col-md-8 p-4" style="overflow-y: auto; max-height: 100vh;">
         <input type="text" class="form-control mb-4" placeholder="Search Product...">
-        <div class="d-flex justify-content-evenly mb-3">
-            <button class="btn btn-outline-brown">All</button>
-            <button class="btn btn-outline-brown">Breakfast</button>
-            <button class="btn btn-outline-brown">Coffee</button>
-            <button class="btn btn-outline-brown">Milk</button>
-        </div>
         
         <!-- Menu Items --> 
         <div class="row">
             @foreach ($menus as $menu)
                 <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="{{ $menu->image }}" class="card-img-top" alt="{{ $menu->menu_name }}">
+                    <div class="card shadow">
+                        <img src="{{ asset('upload/menus-img/' . $menu->image) }}" class="card-img-top" alt="{{ $menu->menu_name }}">
                         <div class="card-body text-center">
-                            <h5 class="card-title">{{ $menu->menu_name }}</h5>
-                            <p class="card-text">${{ $menu->description }}</p>
-                            <p class="card-text">${{ number_format($menu->price, 2) }}</p>
+                            <h5 class="card-title fw-bold">{{ $menu->menu_name }}</h5>
+                            <p class="card-text">{{ $menu->description }}</p>
+                            <p class="card-text fw-bold">${{ number_format($menu->price, 2) }}</p>
                             @if($menu->isAvailable)
                                 <!-- Form to add item to order -->
                                 <form action="{{ route('menu.addToOrder', $menu->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="btn btn-success">Add to Dish</button>
+                                    <button type="submit" class="btn btn-success">Add to Order</button>
                                 </form>
                             @else
                                 <button class="btn btn-secondary" disabled>Out of Stock</button>

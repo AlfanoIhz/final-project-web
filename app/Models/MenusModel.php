@@ -10,7 +10,5 @@ class MenusModel extends Model
     use HasFactory;
 
     protected $table = 'menus';
-
-    // Tentukan kolom mana saja yang bisa diisi
-    protected $fillable = ['menu_name', 'description', 'price', 'image', 'isAvailable'];
+    protected $fillable = ['menu_name', 'description', 'price', 'image'];
 }

@@ -1,21 +1,26 @@
-@extends('layouts.user-layout')
+@extends('layouts.admin')
 
 @section('content')
-<div class="row vh-100">
-    <!-- Menu Content -->
-    <div class="col-md-8 p-4" style="overflow-y: auto; max-height: 100vh;">
-        <input type="text" class="form-control mb-4" placeholder="Search Product...">
-        <div class="d-flex justify-content-evenly mb-3">
-            <button class="btn btn-outline-brown">All</button>
-            <button class="btn btn-outline-brown">Breakfast</button>
-            <button class="btn btn-outline-brown">Coffee</button>
-            <button class="btn btn-outline-brown">Milk</button>
-        </div>
-        
-        <!-- Menu Items --> 
-        <div class="col">
-            
-        </div>
+    <div class="row vh-100">
+        @foreach ($menus as $menu)
+            <div class="col-md-4 mb-4">
+                <div class="card shadow">
+                    <img src="{{ asset('upload/menus-img/' . $menu->image) }}" class="card-img-top" alt="{{ $menu->menu_name }}">
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold">{{ $menu->menu_name }}</h5>
+                        <p class="card-text">{{ $menu->description }}</p>
+                        <p class="card-text fw-bold">${{ number_format($menu->price, 2) }}</p>
+                        @if($menu->isAvailable)
+                            <form action="{{ route('menu.addToOrder', $menu->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-success">Add to Order</button>
+                            </form>
+                        @else
+                            <button class="btn btn-secondary" disabled>Out of Stock</button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endforeach
     </div>
-</div>
 @endsection

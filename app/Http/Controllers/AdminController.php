@@ -3,13 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\MenusModel;
+use App\Http\Requests\AddMenuRequest;
 
 class AdminController extends Controller
 {
     public function dashboard()
     {
-        // Return the view for the homepage
-        return view('admin/admin-dashboard');
+        if (auth()->check()) {
+            return view('admin.admin-dashboard');
+        }
+
+        return redirect()->route('login-form')->with('loginError', 'You must be logged in to access the dashboard.');
     }
 
     public function showAddMenu()
@@ -18,19 +23,19 @@ class AdminController extends Controller
         return view('admin/add-menu');
     }
 
-    public function addMenu()
+    public function addMenu(Request $request)
     {
         $request->validate([
             'menu_name' => 'required|string|max:255',
-            'description' => 'required|string|email|max:255|unique:users',
+            'description' => 'required|string|max:255',
             'price' => 'required|numeric|min:0|regex:/^\d+(\.\d{1,2})?$/',
-            'image' => 'image|file|max:2048',
+            'image' => 'nullable|image|max:2048',
         ]);
 
         // Meng-handle upload foto
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imeageName = time() . '_' . $image->getClientOriginalName();
+            $imageName = time() . '_' . $image->getClientOriginalName();
             // Menyimpan file foto di folder 'uploads'
             $imagePath = $image->move(public_path('upload/menus-img'), $imageName);
         } else {
