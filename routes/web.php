@@ -21,9 +21,9 @@ use App\Http\Controllers\MenuController;
 //     return redirect()->to('/home');
 // });
 
-Route::get('/', [PageController::class, 'dashboard']);
+Route::get('/', [PageController::class, 'dashboard'])->middleware('guest');
 
-Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard')->middleware('auth');
+Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard')->middleware('auth');
 
 Route::get('/register', [LoginController::class, 'showRegisterForm'])->name('register-form')->middleware('guest');
 Route::post('/register', [LoginController::class, 'register'])->name('admin.register');
@@ -32,9 +32,16 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login-for
 Route::post('/login', [LoginController::class, 'login'])->name('admin.login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout');
 
+Route::get('/admin/add-menu', [AdminController::class, 'showAddMenu'])->name('showMenu')->middleware('auth');
+Route::post('/admin/add-menu', [AdminController::class, 'addMenu'])->name('menu.add');
+
+Route::get('/admin/edit-menu', [AdminController::class, 'showEditMenu'])->name('menu.showEdit')->middleware('auth');
+Route::post('/admin/update-menu', [AdminController::class, 'update'])->name('menu.update');
+
+Route::get('/admin/menu-details', [AdminController::class, 'showMenuDetails'])->name('menu.details')->middleware('auth');
+Route::post('/admin/delete-menu', [AdminController::class, 'deleteMenu'])->name('menu.destroy');
+
 Route::get('/menu', [MenuController::class, 'index']);
 Route::post('/menu/add-to-order/{id}', [MenuController::class, 'addToOrder'])->name('menu.addToOrder');
 Route::get('/orders', [MenuController::class, 'showOrder'])->name('menu.showOrder');
 
-Route::get('/admin/add-menu', [AdminController::class, 'showAddMenu'])->name('showMenu')->middleware('auth');
-Route::post('/admin/add-menu', [AdminController::class, 'addMenu'])->name('menu.add');

@@ -25,14 +25,14 @@
         }
 
         .sidebar-nav .nav-link {
-            color: #8B4513; 
+            color: #875500; 
             border-radius: 5px;
         }
 
         .sidebar-nav .nav-link.active, 
         .sidebar-nav .nav-link:hover {
             box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.3);
-            background-color: #8B4513; 
+            background-color: #875500; 
             color: white !important; 
             padding: 8px 12px;
         }
@@ -41,6 +41,13 @@
             height: calc(100vh - 50px); 
             overflow-y: auto;
         }
+
+        .description-cell {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>
@@ -48,17 +55,17 @@
         <nav class="navbar bg-body-tertiary border-bottom mt-1">
             <div class="container-fluid mx-4">
                 <a href="{{ route('admin.dashboard') }}" class="logo">
-                    <img src="{{ asset('assets/img/caffeine.png') }}" alt="caffeine" class="" style="width:100%; height:35px;">
+                    <img src="{{ asset('assets/img/caffeine-colored.png') }}" alt="caffeine" class="" style="width:100%; height:35px;">
                 </a>
                 <ul>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle fw-semibold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Welcome, {{ auth()->user()->name }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="left: auto; right: 0;">
                             <form action="{{ route('admin.logout') }}" method="post">
                                 @csrf
-                                <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right"></i> Logout</button>
+                                <button type="submit" class="dropdown-item fw-semibold">Logout <i class="bi bi-box-arrow-right"></i></button>
                             </form>
                         </div>
                     </li>
@@ -76,11 +83,13 @@
             </ul>
         </div>
 
-        <div class="col-md-10 content-area" style="background-color: #f1f1f1;">
+        <div class="col-md-10 content-area " style="background-color: #f1f1f1;">
             @yield('content')
         </div>
     </div>
     
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('js/menuDetails.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

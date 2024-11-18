@@ -8,19 +8,35 @@ use App\Http\Requests\AddMenuRequest;
 
 class AdminController extends Controller
 {
-    public function dashboard()
+    
+    public function index(Request $request)
     {
-        if (auth()->check()) {
-            return view('admin.admin-dashboard');
+          // Check if the user is authenticated
+        if (!auth()->check()) {
+            return redirect()->route('login-form')->with('loginError', 'You must be logged in to access the dashboard.');
         }
 
-        return redirect()->route('login-form')->with('loginError', 'You must be logged in to access the dashboard.');
+        // Get the search input
+        $search = $request->input('search');
+
+        // Fetch menus, applying the search filter if present
+        $menus = MenusModel::when($search, function ($query, $search) {
+            return $query->where('menu_name', 'LIKE', "%{$search}%")
+                        ->orWhere('description', 'LIKE', "%{$search}%");
+        })->paginate(6);
+
+        // Return the view with menus
+        return view('admin.admin-dashboard', compact('menus'));
     }
 
     public function showAddMenu()
     {
-        // Return the view for the homepage
         return view('admin/add-menu');
+    }
+
+    public function showEditMenu()
+    {
+        return view('admin/edit-menu');
     }
 
     public function addMenu(Request $request)
@@ -47,7 +63,7 @@ class AdminController extends Controller
             'menu_name' => $request->menu_name,
             'description' => $request->description,
             'price' => $request->price,
-            'image' => $imageName,
+            'image' => $imagePath ? $imageName : null, // Menyimpan nama file image
         ]);
 
         return redirect()->to('admin/dashboard')->with('success', 'Menu Added');
