@@ -8,35 +8,34 @@ use App\Http\Requests\AddMenuRequest;
 
 class AdminController extends Controller
 {
-    
     public function index(Request $request)
     {
-          // Check if the user is authenticated
+        $title = 'Dashboard';
+
+        // Check if the user is authenticated
         if (!auth()->check()) {
             return redirect()->route('login-form')->with('loginError', 'You must be logged in to access the dashboard.');
         }
 
-        // Get the search input
         $search = $request->input('search');
 
         // Fetch menus, applying the search filter if present
         $menus = MenusModel::when($search, function ($query, $search) {
             return $query->where('menu_name', 'LIKE', "%{$search}%")
                         ->orWhere('description', 'LIKE', "%{$search}%");
-        })->paginate(6);
+        })->paginate(100);  
 
-        // Return the view with menus
-        return view('admin.admin-dashboard', compact('menus'));
+        // Format the price
+        foreach ($menus as $menu) {
+            $menu->formatted_price = $this->formatToRupiah($menu->price);
+        }
+
+        return view('admin.admin-dashboard', compact('menus', 'title'));
     }
 
     public function showAddMenu()
     {
-        return view('admin/add-menu');
-    }
-
-    public function showEditMenu()
-    {
-        return view('admin/edit-menu');
+        return view('admin/add-menu', ['title' => 'Add New Menu']);
     }
 
     public function addMenu(Request $request)
@@ -44,28 +43,74 @@ class AdminController extends Controller
         $request->validate([
             'menu_name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0|regex:/^\d+(\.\d{1,2})?$/',
+            'price' => 'required|numeric|min:0',
             'image' => 'nullable|image|max:2048',
         ]);
 
-        // Meng-handle upload foto
+        // Handle image upload
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '_' . $image->getClientOriginalName();
-            // Menyimpan file foto di folder 'uploads'
+            // Save the image in 'uploads' folder
             $imagePath = $image->move(public_path('upload/menus-img'), $imageName);
         } else {
             $imagePath = null;
         }
 
-        // Hash the password and create the user
+        // Create the menu item
         MenusModel::create([
             'menu_name' => $request->menu_name,
             'description' => $request->description,
             'price' => $request->price,
-            'image' => $imagePath ? $imageName : null, // Menyimpan nama file image
+            'image' => $imagePath ? $imageName : null,
         ]);
 
         return redirect()->to('admin/dashboard')->with('success', 'Menu Added');
+    }
+
+    public function showEditMenu()
+    {
+        return view('admin/edit-menu', ['title' => 'Edit Menu']);
+    }
+
+    public function updateMenu(Request $request, $id)
+    {
+        $request->validate([
+            'menu_name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0', // Validate as numeric
+            'image' => 'nullable|image|max:2048',
+        ]);
+
+        $menu = MenusModel::findOrFail($id);
+
+        // Update the menu item
+        $menu->update([
+            'menu_name' => $request->menu_name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'image' => $request->hasFile('image') ? $request->file('image')->store('images') : $menu->image,
+        ]);
+
+        return redirect()->to('admin/dashboard')->with('success', 'Menu Updated');
+    }
+
+    public function destroy($id)
+    {
+        $menu = MenusModel::findOrFail($id);
+
+        // Delete the image if it exists and is stored in the public folder
+        if (file_exists(public_path($menu->image)) && $menu->image !== null) {
+            unlink(public_path($menu->image));
+        }
+
+        $menu->delete();
+
+        return redirect()->to('admin/dashboard')->with('success', 'Menu Item Deleted');
+    }
+
+    // Function to format the price as Rupiah
+    private function formatToRupiah($amount) {
+        return number_format((float)$amount, 0, ',', '.');
     }
 }

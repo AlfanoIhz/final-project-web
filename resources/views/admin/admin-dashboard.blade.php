@@ -1,18 +1,19 @@
     @extends('layouts.admin')
 
     @section('content')
-        <div class="row mt-1">
+        <div class="row ms-1 mt-2">
             <div class="bg-light p-4 rounded" style="max-width: 1080px; width: 100%;">
                 <div class="row mb-3 mt-2 text-between">
                     <div class="col">
-                        <a href="{{ route('menu.add') }}" class="btn btn-secondary"><i class="bi bi-plus-square"></i> Add Menu</a>
-                        <button class="btn btn-secondary"><i class="bi bi-file-earmark-arrow-up"></i> Export</button>
+                        <a href="{{ route('menu.add') }}" class="btn btn-outline-dark"><i class="bi bi-plus-square"></i> Add Menu</a>
+                        <button class="btn btn-dark"><i class="bi bi-file-earmark-arrow-up"></i> Export</button>
                     </div>
                     <div class="col">
-                        <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+                        <form class="d-flex" role="search" id="searchForm">
+                            <input class="form-control me-2" type="search" id="searchInput" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-dark" type="submit">Search</button>
+                        </form>
+                        <div id="searchResults" class="dropdown-menu" style="display: none;"></div>
                     </div>
                 </div>
 
@@ -22,8 +23,8 @@
                         <th class="col-md-1">#</th>
                         <th class="col-md-1">Image</th>
                         <th class="col-md-2">Menu Name</th>
-                        <th class="col-md-4">Description</th>
-                        <th class="col-md-1">Price</th>
+                        <th class="col-md-3">Description</th>
+                        <th class="col-md-2">Price</th>
                         <th class="col-md-1 description-cell">Available</th>
                         <th class="col-md-2">Actions</th>
                     </tr>
@@ -34,14 +35,14 @@
                             <td>{{ $loop->iteration + ($menus->currentPage() - 1) * $menus->perPage() }}</td>
                             <td>
                                 @if ($menu->image)
-                                    <img src="{{ asset('upload/menus-img/' . $menu->image) }}" alt="Profile Image" style="object-fit: cover; border-radius: 10%;" width="50" height="50">
+                                    <img src="{{ asset('upload/menus-img/' . $menu->image) }}" alt="{{ $menu->menu_name }}" style="object-fit: cover; border-radius: 10%;" width="50" height="50">
                                 @else
-                                    <img src="{{ asset('assets/menus-img/menu.jpg') }}" alt="Menu Image" style="object-fit: cover; border-radius: 10%;" width="50" height="50">
+                                    <img src="{{ asset('assets/img/menu-default.png') }}" alt="{{ $menu->menu_name }}" style="object-fit: cover; border-radius: 10%;" width="50" height="50">
                                 @endif
                             </td>
                             <td>{{ $menu->menu_name}}</td>
                             <td class="description-cell">{{ $menu->description }}</td>
-                            <td>{{ $menu->price }}</td>
+                            <td>{{ $menu->formatted_price }}</td>
                             <td>{{ $menu->isAvailable ? 'Yes' : 'No' }}</td>
                             <td>
                                 <button class="btn btn-sm btn-info" 
@@ -49,7 +50,7 @@
                                         data-bs-target="#menuModal" 
                                         data-menu-name="{{ $menu->menu_name }}"
                                         data-description="{{ $menu->description }}"
-                                        data-price="{{ $menu->price }}"
+                                        data-price="{{ $menu->formatted_price }}"
                                         data-image="{{ asset('upload/menus-img/' . $menu->image) }}"
                                         data-availability="{{ $menu->isAvailable ? 'Available' : 'Not Available' }}">
                                     View
@@ -117,7 +118,7 @@
                                     <div class="col-md-8">
                                         <h5 id="modalMenuName"></h5>
                                         <p id="modalDescription"></p>
-                                        <p><strong>Price:</strong> $<span id="modalPrice"></span></p>
+                                        <p><strong>Price:</strong> <span id="modalPrice"></span></p>
                                         <p><strong>Status:</strong> <span id="modalAvailability"></span></p>
                                         <a href="{{ route('menu.showEdit', $menu->id) }}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i> Edit</a>
                                         <form action="{{ route('menu.destroy', $menu->id) }}" method="POST" style="display:inline-block;">

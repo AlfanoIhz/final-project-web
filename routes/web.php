@@ -21,7 +21,7 @@ use App\Http\Controllers\MenuController;
 //     return redirect()->to('/home');
 // });
 
-Route::get('/', [PageController::class, 'dashboard'])->middleware('guest');
+Route::get('/', [PageController::class, 'dashboard'])->name('landing-page')->middleware('guest');
 
 Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard')->middleware('auth');
 
@@ -39,9 +39,8 @@ Route::get('/admin/edit-menu', [AdminController::class, 'showEditMenu'])->name('
 Route::post('/admin/update-menu', [AdminController::class, 'update'])->name('menu.update');
 
 Route::get('/admin/menu-details', [AdminController::class, 'showMenuDetails'])->name('menu.details')->middleware('auth');
-Route::post('/admin/delete-menu', [AdminController::class, 'deleteMenu'])->name('menu.destroy');
+Route::delete('/admin/destroy-menu/{id}', [AdminController::class, 'destroy'])->name('menu.destroy');
 
-Route::get('/menu', [MenuController::class, 'index']);
+Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 Route::post('/menu/add-to-order/{id}', [MenuController::class, 'addToOrder'])->name('menu.addToOrder');
 Route::get('/orders', [MenuController::class, 'showOrder'])->name('menu.showOrder');
-

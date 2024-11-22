@@ -3,19 +3,19 @@
 @section('content')
 <div class="row vh-100">
     <!-- Menu Content -->
-    <div class="col-md-8 p-4" style="overflow-y: auto; max-height: 100vh;">
+    <div class="col-md-9 p-4" style="overflow-y: auto; max-height: 100vh;">
         <input type="text" class="form-control mb-4" placeholder="Search Product...">
         
         <!-- Menu Items --> 
         <div class="row">
             @foreach ($menus as $menu)
-                <div class="col-md-4 mb-4">
+                <div class="col-md-3 mb-4">
                     <div class="card shadow">
                         <img src="{{ asset('upload/menus-img/' . $menu->image) }}" class="card-img-top" alt="{{ $menu->menu_name }}">
                         <div class="card-body text-center">
-                            <h5 class="card-title fw-bold">{{ $menu->menu_name }}</h5>
-                            <p class="card-text">{{ $menu->description }}</p>
-                            <p class="card-text fw-bold">${{ number_format($menu->price, 2) }}</p>
+                            <h5 class="card-title text-center fw-bold">{{ $menu->menu_name }}</h5>
+                            <p class="card-text text-start">{{ $menu->description }}</p>
+                            <p class="card-text text-start fw-bold">${{ number_format($menu->price, 2) }}</p>
                             @if($menu->isAvailable)
                                 <!-- Form to add item to order -->
                                 <form action="{{ route('menu.addToOrder', $menu->id) }}" method="POST">
@@ -33,7 +33,7 @@
     </div>
 
     <!-- Order Summary -->
-    <div class="col-md-4 d-flex flex-column bg-white p-4" style="max-height: 100vh;">
+    <div class="col-md-3 d-flex flex-column bg-white p-4" style="max-height: 100vh;">
         <h4 class="mb-3">Table 4</h4>
         <hr>
         <!-- Order Items -->

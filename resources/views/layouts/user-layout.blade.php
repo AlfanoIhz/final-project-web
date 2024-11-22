@@ -7,13 +7,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-         .container-fluid {
+        html {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        ::-webkit-scrollbar {
+            display: none; /* Safari and Chrome */
+        }
+
+        .container-fluid {
             padding: 0;
         }
 
         .row {
             margin: 0;
-            overflow: hidden;
+            overflow: hidden;  
         }
 
         .nav-link {
@@ -40,6 +49,13 @@
         .btn-outline-brown:hover {
             background-color: #8B4513;
             color: white;
+        }
+
+        .card{
+            max-width: 180px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     </style>
 </head>

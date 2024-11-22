@@ -30,8 +30,8 @@
                 </div>
             </form>
             <div class="bg-cover text-center text-gray-600 py-4 rounded-b-xl">
-                <button type="button" onclick="window.location.href='{{ route('admin.dashboard') }}'" class="btn btn-danger">Back</button>
-                <button type="submit" form="addMenu" class="btn btn-primary">Submit</button>
+                <button type="button" onclick="window.location.href='{{ route('admin.dashboard') }}'" class="btn btn-outline-dark me-3">Back</button>
+                <button type="submit" form="addMenu" class="btn btn-dark">Submit</button>
             </div>
         </div>
     </div>
