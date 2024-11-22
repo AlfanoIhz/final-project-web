@@ -75,24 +75,36 @@ class AdminController extends Controller
 
     public function updateMenu(Request $request, $id)
     {
+        // Validate incoming request data
         $request->validate([
             'menu_name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0', // Validate as numeric
+            'price' => 'required|numeric|min:0',
             'image' => 'nullable|image|max:2048',
         ]);
 
+        // Find the menu item by ID or fail
         $menu = MenusModel::findOrFail($id);
+
+        // Check if a new image is uploaded
+        if ($request->hasFile('image')) {
+            // Delete the old image if it exists
+            if ($menu->image) {
+                Storage::delete($menu->image);
+            }
+            // Store the new image
+            $menu->image = $request->file('image')->store('images');
+        }
 
         // Update the menu item
         $menu->update([
             'menu_name' => $request->menu_name,
             'description' => $request->description,
             'price' => $request->price,
-            'image' => $request->hasFile('image') ? $request->file('image')->store('images') : $menu->image,
         ]);
 
-        return redirect()->to('admin/dashboard')->with('success', 'Menu Updated');
+        // Redirect with a success message
+        return redirect()->route('admin.dashboard')->with('success', 'Menu Updated');
     }
 
     public function destroy($id)

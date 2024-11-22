@@ -10,13 +10,20 @@ $(document).ready(function() {
         var price = button.data('price');
         var image = button.data('image');
         var availability = button.data('availability');
-
+        
         // Update the modal's content
         var modal = $(this);
         modal.find('#modalMenuName').text(menuName);
         modal.find('#modalDescription').text(description);
         modal.find('#modalPrice').text(price);
-        modal.find('#modalImage').attr('src', image);
+        
+        // Check if the image variable is empty or not
+        if (image) {
+            modal.find('#modalImage').attr('src', image);
+        } else {
+            modal.find('#modalImage').attr('src', defaultImage);
+        }
+        
         modal.find('#modalAvailability').text(availability);
     });
 });

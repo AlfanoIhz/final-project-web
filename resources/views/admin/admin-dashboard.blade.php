@@ -5,7 +5,7 @@
             <div class="bg-light p-4 rounded" style="max-width: 1080px; width: 100%;">
                 <div class="row mb-3 mt-2 text-between">
                     <div class="col">
-                        <a href="{{ route('menu.add') }}" class="btn btn-outline-dark"><i class="bi bi-plus-square"></i> Add Menu</a>
+                        <a href="{{ route('menu.add') }}" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#addMenuModal"><i class="bi bi-plus-square"></i> Add Menu</a>
                         <button class="btn btn-dark"><i class="bi bi-file-earmark-arrow-up"></i> Export</button>
                     </div>
                     <div class="col">
@@ -37,7 +37,7 @@
                                 @if ($menu->image)
                                     <img src="{{ asset('upload/menus-img/' . $menu->image) }}" alt="{{ $menu->menu_name }}" style="object-fit: cover; border-radius: 10%;" width="50" height="50">
                                 @else
-                                    <img src="{{ asset('assets/img/menu-default.png') }}" alt="{{ $menu->menu_name }}" style="object-fit: cover; border-radius: 10%;" width="50" height="50">
+                                    <img src="{{ asset('assets/img/Caffeine-default.png') }}" alt="{{ $menu->menu_name }}" style="object-fit: cover; border-radius: 10%;" width="50" height="50">
                                 @endif
                             </td>
                             <td>{{ $menu->menu_name}}</td>
@@ -55,7 +55,9 @@
                                         data-availability="{{ $menu->isAvailable ? 'Available' : 'Not Available' }}">
                                     View
                                 </button>
-                                <a href="{{ route('menu.showEdit', $menu->id) }}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editMenuModal" onclick="populateEditModal({{ $menu }})">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
                                 <form action="{{ route('menu.destroy', $menu->id) }}" method="POST" style="display:inline-block;">
                                     @csrf
                                     @method('DELETE')
@@ -104,6 +106,47 @@
                         </ul>
                     </nav>
 
+                    <!-- Add MenuModal -->
+                    <div class="modal fade" id="addMenuModal" tabindex="-1" aria-labelledby="addMenuModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addMenuModalLabel">Add New Menu</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="addMenu" action="{{ route('menu.add') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label for="menu_name" class="form-label">Menu Name</label>
+                                            <input type="text" id="menu_name" name="menu_name" class="form-control" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="description" class="form-label">Description</label>
+                                            <input type="text" id="description" name="description" class="form-control" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="price" class="form-label">Price</label>
+                                            <input type="number" id="price" name="price" class="form-control" step="0.01" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="image" class="form-label">Image</label>
+                                            <input type="file" id="image" name="image" class="form-control" accept="image/*">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" form="addMenu" class="btn btn-dark px-4">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!--Menu Details Modal -->
                     <div class="modal fade" id="menuModal" tabindex="-1" aria-labelledby="menuModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -120,7 +163,11 @@
                                         <p id="modalDescription"></p>
                                         <p><strong>Price:</strong> <span id="modalPrice"></span></p>
                                         <p><strong>Status:</strong> <span id="modalAvailability"></span></p>
-                                        <a href="{{ route('menu.showEdit', $menu->id) }}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i> Edit</a>
+
+                                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editMenuModal" onclick="populateEditModal({{ $menu }})">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+
                                         <form action="{{ route('menu.destroy', $menu->id) }}" method="POST" style="display:inline-block;">
                                             @csrf
                                             @method('DELETE')
@@ -131,6 +178,48 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Edit Menu Modal -->
+                    <div class="modal fade" id="editMenuModal" tabindex="-1" aria-labelledby="editMenuModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editMenuModalLabel">Edit Menu</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="editMenu" action="{{ route('menu.update', '') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="mb-3">
+                                            <label for="edit_menu_name" class="form-label">Menu Name</label>
+                                            <input type="text" id="edit_menu_name" name="menu_name" class="form-control" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="edit_description" class="form-label">Description</label>
+                                            <input type="text" id="edit_description" name="description" class="form-control" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="edit_price" class="form-label">Price</label>
+                                            <input type="number" id="edit_price" name="price" class="form-control" step="0.01" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="edit_image" class="form-label">Image</label>
+                                            <input type="file" id="edit_image" name="image" class="form-control" accept="image/*">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" form="editMenu" class="btn btn-dark">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

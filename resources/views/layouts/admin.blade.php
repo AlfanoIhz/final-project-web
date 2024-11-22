@@ -25,14 +25,15 @@
         }
 
         .sidebar-nav .nav-link {
-            color: #875500; 
+            color: #000000; 
             border-radius: 5px;
+            decoration: none;
         }
 
         .sidebar-nav .nav-link.active, 
         .sidebar-nav .nav-link:hover {
             box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.3);
-            background-color: #875500; 
+            background-color: #000000; 
             color: white !important; 
             padding: 8px 12px;
         }
@@ -50,13 +51,13 @@
         }
 
         .btn-brown {
-            background-color: #875500; /* Example brown color */
-            color: white; /* Text color */
-            border: none; /* Remove border */
+            background-color: #875500;
+            color: white;
+            border: none;
         }
 
         .btn-brown:hover {
-            background-color: #A0522D; /* Lighter brown on hover */
+            background-color: #A0522D;
         }
     </style>
 </head>
@@ -97,7 +98,31 @@
             @yield('content')
         </div>
     </div>
-    
+
+    <!-- Edit Menu -->
+    <script>
+        var defaultImage = "{{ asset('assets/img/Caffeine-default.png') }}";
+
+        function populateEditModal(menu) {
+            // Check if the menu object is defined
+            if (menu) {
+                document.getElementById('edit_menu_name').value = menu.menu_name || '';
+                document.getElementById('edit_description').value = menu.description || '';
+                document.getElementById('edit_price').value = menu.price || '';
+                document.getElementById('edit_image').value = '';
+
+                // Set the action URL for the form
+                document.getElementById('editMenu').action = "{{ route('menu.update', '') }}/" + menu.id;
+
+                // Log for debugging
+                console.log("Populating modal for:", menu);
+            } else {
+                console.error("Menu object is not defined.");
+            }
+        }
+
+    </script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('js/menuDetails.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

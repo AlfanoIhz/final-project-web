@@ -35,11 +35,11 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout')
 Route::get('/admin/add-menu', [AdminController::class, 'showAddMenu'])->name('showMenu')->middleware('auth');
 Route::post('/admin/add-menu', [AdminController::class, 'addMenu'])->name('menu.add');
 
-Route::get('/admin/edit-menu', [AdminController::class, 'showEditMenu'])->name('menu.showEdit')->middleware('auth');
-Route::post('/admin/update-menu', [AdminController::class, 'update'])->name('menu.update');
+Route::put('/admin/update-menu/{id}', [AdminController::class, 'updateMenu'])->name('menu.update');
 
 Route::get('/admin/menu-details', [AdminController::class, 'showMenuDetails'])->name('menu.details')->middleware('auth');
 Route::delete('/admin/destroy-menu/{id}', [AdminController::class, 'destroy'])->name('menu.destroy');
+
 
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 Route::post('/menu/add-to-order/{id}', [MenuController::class, 'addToOrder'])->name('menu.addToOrder');
