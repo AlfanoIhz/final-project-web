@@ -38,3 +38,5 @@ Route::get('/orders', [MenuController::class, 'showOrder'])->name('menu.showOrde
 
 Route::get('/admin/add-menu', [AdminController::class, 'showAddMenu'])->name('showMenu')->middleware('auth');
 Route::post('/admin/add-menu', [AdminController::class, 'addMenu'])->name('menu.add');
+
+Route::get('/menu', [MenuController::class, 'index'])->name('menu');

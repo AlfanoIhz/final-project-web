@@ -6,7 +6,7 @@
         <div class="d-flex h-100 justify-content-center align-items-center">
             <div class="content">
                 <h1>Welcome</h1>
-                <a href="#find-table" class="btn btn-light">Find a Table</a>
+                <a href="{{ route('menu') }}" class="btn btn-light">Find a Table</a>
             </div>
         </div>
     </section>
