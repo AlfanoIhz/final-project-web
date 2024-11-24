@@ -51,7 +51,11 @@ class LoginController extends Controller
         // Check credentials and log in the user if they are valid
         if (Auth::attempt($credentials)) {
             $request ->session()->regenerate();
-
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            } elseif (Auth::user()->role === 'customer') {
+                return redirect()->route('customer.dashboard');
+            }
             return redirect()->intended('admin/dashboard');
         }
 
