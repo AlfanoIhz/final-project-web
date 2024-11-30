@@ -62,17 +62,27 @@
 <body>
     <div class="row vh-100">
         <div class="vh-100 col-md-2 bg-white d-flex flex-column p-3" style="min-width: 15%;">
-            <a href="{{ route('menu') }}" class="logo d-flex justify-content-center">
+            <a href="{{ route('user.menu') }}" class="logo d-flex justify-content-center">
                 <img src="{{ asset('assets/img/caffeine.png') }}" alt="caffeine" class="" style="width:auto; height:35px;">
             </a>
             <ul class="nav mt-4 flex-column">
                 <li class="nav-item mb-3"><a href="#" class="nav-link active">Menu</a></li>
                 <li class="nav-item mb-3"><a href="#" class="nav-link">Table Services</a></li>
-                <li class="nav-item mb-3"><a href="#" class="nav-link">Reservation</a></li>
-                <li class="nav-item mb-3"><a href="#" class="nav-link">Accounting</a></li>
                 <li class="nav-item mb-3"><a href="#" class="nav-link">Settings</a></li>
             </ul>
+            <div class="nav-item dropdown ">
+                <a class="nav-link dropdown-toggle fw-semibold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ auth()->user()->name }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="left: auto; right: 0;">
+                    <form action="{{ route('user.logout') }}" method="post">
+                        @csrf
+                        <button type="submit" class="dropdown-item fw-semibold">Logout <i class="bi bi-box-arrow-right"></i></button>
+                    </form>
+                </div>
+            </div>
         </div>
+        
 
         <div class="container-fluid col-md-10" style="background-color: #f1f1f1;">
             @yield('content')

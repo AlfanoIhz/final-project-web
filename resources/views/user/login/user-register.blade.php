@@ -7,6 +7,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        html {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+            
         body {
             background-image: url('{{ asset('assets/img/caffe.jpg') }}'); 
             background-size: cover;
@@ -34,7 +43,7 @@
                 <h3 class="text-center fw-bold py-3">Register</h3>
                 <h6 class="text-start fw-bold">Welcome to Caffeine!</h6>
                 <p class="text-start">Fill the form below to register for an account.</p>
-                <form class="me-4" method="POST" action="{{ route('admin.register') }}">
+                <form class="me-4" method="POST" action="{{ route('user.register') }}">
                     @csrf
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
@@ -69,7 +78,7 @@
                     </div>
                     <button type="submit" class="btn w-100" style="background-color: #b49149; color: white;">Create</button>
                 </form>
-                <p class="text-center mt-2">Already have an account? <a href="{{ route('admin.login-form') }}">Login</a></p>
+                <p class="text-center mt-2">Already have an account? <a href="{{ route('user.login-form') }}">Login</a></p>
             </div> 
         </div>
     </div>

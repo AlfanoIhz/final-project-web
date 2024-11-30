@@ -7,7 +7,7 @@
             <div class="content">
                 <img src="{{ asset('assets/img/caffeine-light.png') }}" alt="caffeine" class="mb-4" style="width:auto; height:75px;"> 
                 <h1 class="fw-semibold">Welcome</h1>
-                <a href="{{ route('menu') }}" class="btn btn-light">Find a Table</a>
+                <a href="{{ route('user.menu') }}" class="btn btn-light">Find a Table</a>
             </div>
         </div>
     </section>

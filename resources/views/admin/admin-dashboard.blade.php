@@ -9,8 +9,8 @@
                         <button class="btn btn-dark"><i class="bi bi-file-earmark-arrow-up"></i> Export</button>
                     </div>
                     <div class="col">
-                        <form class="d-flex" role="search" id="searchForm">
-                            <input class="form-control me-2" type="search" id="searchInput" placeholder="Search" aria-label="Search">
+                        <form class="d-flex" role="search" id="searchForm"  method="GET" action="{{ route('admin.dashboard') }}">
+                            <input class="form-control me-2" type="search" id="searchInput" name="searchInput" placeholder="Search" aria-label="Search">
                             <button class="btn btn-outline-dark" type="submit">Search</button>
                         </form>
                         <div id="searchResults" class="dropdown-menu" style="display: none;"></div>
@@ -207,6 +207,8 @@
                                         </div>
 
                                         <div class="mb-3">
+                                            <img src="{{ asset('upload/menus-img/' . $menu->image) }}" alt="User Photo" width="100" class="mt-2">
+                                            
                                             <label for="edit_image" class="form-label">Image</label>
                                             <input type="file" id="edit_image" name="image" class="form-control" accept="image/*">
                                         </div>

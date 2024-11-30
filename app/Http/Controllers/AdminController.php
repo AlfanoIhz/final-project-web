@@ -14,16 +14,16 @@ class AdminController extends Controller
 
         // Check if the user is authenticated
         if (!auth()->check()) {
-            return redirect()->route('login-form')->with('loginError', 'You must be logged in to access the dashboard.');
+            return redirect()->route('admin.login-form')->with('loginError', 'You must be logged in to access the dashboard.');
         }
 
-        $search = $request->input('search');
+        $search = $request->input('searchInput');
 
         // Fetch menus, applying the search filter if present
         $menus = MenusModel::when($search, function ($query, $search) {
             return $query->where('menu_name', 'LIKE', "%{$search}%")
                         ->orWhere('description', 'LIKE', "%{$search}%");
-        })->paginate(100);  
+        })->paginate(25);  
 
         // Format the price
         foreach ($menus as $menu) {
@@ -31,11 +31,6 @@ class AdminController extends Controller
         }
 
         return view('admin.admin-dashboard', compact('menus', 'title'));
-    }
-
-    public function showAddMenu()
-    {
-        return view('admin/add-menu', ['title' => 'Add New Menu']);
     }
 
     public function addMenu(Request $request)

@@ -66,7 +66,7 @@
         <nav class="navbar bg-body-tertiary border-bottom mt-1">
             <div class="container-fluid mx-4">
                 <a href="{{ route('admin.dashboard') }}" class="logo">
-                    <img src="{{ asset('assets/img/caffeine-colored.png') }}" alt="caffeine" class="" style="width:100%; height:35px;">
+                    <img src="{{ asset('assets/img/caffeine.png') }}" alt="caffeine" class="" style="width:100%; height:35px;">
                 </a>
                 <ul>
                     <li class="nav-item dropdown">
@@ -111,10 +111,8 @@
                 document.getElementById('edit_price').value = menu.price || '';
                 document.getElementById('edit_image').value = '';
 
-                // Set the action URL for the form
                 document.getElementById('editMenu').action = "{{ route('menu.update', '') }}/" + menu.id;
 
-                // Log for debugging
                 console.log("Populating modal for:", menu);
             } else {
                 console.error("Menu object is not defined.");

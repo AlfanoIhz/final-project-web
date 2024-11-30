@@ -5,8 +5,8 @@
     <!-- Menu Content -->
     <div class="col-md-9 p-4" style="overflow-y: auto; max-height: 100vh;">
         <div class="sticky-top shadow form-floating bg-white mb-4 rounded">
-            <input type="text" class="form-control"  id="floatingInput" placeholder="Search Product...">
-            <label for="floatingInput">Search Product</label>
+            <input type="text" class="form-control"  id="searchInput" name="searchInput" placeholder="Find what you want...">
+            <label for="floatingInput">Find what you want...</label>
         </div>
         
         <!-- Menu Items --> 
@@ -56,14 +56,17 @@
                 </div>
             @endforeach
         </div>
-        
         <hr>
         
         <!-- Order Total at Bottom -->
         <div class="mt-auto">
             <div class="d-flex justify-content-between mb-3">
                 <h5>Total:</h5>
-                <h5>Rp.{{ number_format($total, 2) }}</h5>
+                @if($total > 0)
+                    <h5>Rp.{{ number_format($total, 2) }}</h5>
+                @else
+                    <h5></h5>
+                @endif
             </div>
             <button class="btn btn-primary w-100">Place Order</button>
         </div>
