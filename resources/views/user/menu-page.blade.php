@@ -4,9 +4,17 @@
 <div class="row vh-100">
     <!-- Menu Content -->
     <div class="col-md-9 p-4" style="overflow-y: auto; max-height: 100vh;">
-        <div class="sticky-top shadow form-floating bg-white mb-4 rounded">
-            <input type="text" class="form-control"  id="searchInput" name="searchInput" placeholder="Find what you want...">
-            <label for="floatingInput">Find what you want...</label>
+        <!-- <div class="sticky-top shadow bg-white mb-4 rounded">
+            <form class="d-flex form-floating" role="search" id="searchForm"  method="GET" action="{{ route('user.menu') }}">
+                <input type="search" class="form-control"  id="searchInput" name="searchInput" placeholder="Find what you want...">
+                <label for="floatingInput">Find what you want...</label>
+            </form>
+        </div> -->
+        <div class="sticky-top shadow bg-white mb-4 rounded">
+            <form class="d-flex form-floating" role="search" id="searchForm" method="GET" action="{{ route('user.menu') }}">
+                <input type="search" class="form-control" id="searchInput" name="searchInput" placeholder="Find what you want..." value="{{ old('searchInput', request('searchInput')) }}">
+                <label for="searchInput">Find what you want...</label>
+            </form>
         </div>
         
         <!-- Menu Items --> 
@@ -57,7 +65,7 @@
             @endforeach
         </div>
         <hr>
-        
+
         <!-- Order Total at Bottom -->
         <div class="mt-auto">
             <div class="d-flex justify-content-between mb-3">

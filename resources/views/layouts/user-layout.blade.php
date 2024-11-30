@@ -66,7 +66,7 @@
                 <img src="{{ asset('assets/img/caffeine.png') }}" alt="caffeine" class="" style="width:auto; height:35px;">
             </a>
             <ul class="nav mt-4 flex-column">
-                <li class="nav-item mb-3"><a href="#" class="nav-link active">Menu</a></li>
+                <li class="nav-item mb-3"><a href="{{ route('user.menu') }}" class="nav-link active">Menu</a></li>
                 <li class="nav-item mb-3"><a href="#" class="nav-link">Table Services</a></li>
                 <li class="nav-item mb-3"><a href="#" class="nav-link">Settings</a></li>
             </ul>

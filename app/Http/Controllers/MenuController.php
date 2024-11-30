@@ -21,7 +21,7 @@ class MenuController extends Controller
         $orders = session()->get('order', []); // Dapatkan orders dari session
         $total = array_reduce($orders, fn($sum, $item) => $sum + ($item['price'] * $item['quantity']), 0);
 
-        return view('user.menu-page', compact('menus', 'orders', 'total'));
+        return view('user.menu-page', compact('menus', 'orders', 'total', 'search'));
     }
 
     public function addToOrder($id)
