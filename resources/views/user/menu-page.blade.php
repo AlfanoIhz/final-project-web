@@ -4,12 +4,6 @@
 <div class="row vh-100">
     <!-- Menu Content -->
     <div class="col-md-9 p-4" style="overflow-y: auto; max-height: 100vh;">
-        <!-- <div class="sticky-top shadow bg-white mb-4 rounded">
-            <form class="d-flex form-floating" role="search" id="searchForm"  method="GET" action="{{ route('user.menu') }}">
-                <input type="search" class="form-control"  id="searchInput" name="searchInput" placeholder="Find what you want...">
-                <label for="floatingInput">Find what you want...</label>
-            </form>
-        </div> -->
         <div class="sticky-top shadow bg-white mb-4 rounded">
             <form class="d-flex form-floating" role="search" id="searchForm" method="GET" action="{{ route('user.menu') }}">
                 <input type="search" class="form-control" id="searchInput" name="searchInput" placeholder="Find what you want..." value="{{ old('searchInput', request('searchInput')) }}">
@@ -49,18 +43,21 @@
 
     <!-- Order Summary -->
     <div class="col-md-3 d-flex flex-column bg-white p-4" style="max-height: 100vh;">
-        <h4 class="mb-3">Table 4</h4>
+        <h5 class="mb-1">Your Order</h5>
         <hr>
         <!-- Order Items -->
-        <div class="order-list flex-grow-1 overflow-auto" style="max-height: 70vh;">
+        <div class="order-list flex-grow-1 overflow-auto mt-1" style="max-height: 70vh;">
             @foreach ($orders as $order)
                 <div class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
                     <div>
                         <h6 class="mb-0">{{ $order['name'] }}</h6>
-                        <small>{{ number_format($order['price'], 2) }} x {{ $order['quantity'] }}</small>
+                        <div class="item-count mt-1">
+                            <button class="btn count-btn btn-outline-dark decrement" type="button"><i class="bi bi-dash"></i></button>
+                            <input type="text" class="form-control text-center input-size" value="{{ $order['quantity'] }}" id="quantity">
+                            <button class="btn count-btn btn-outline-dark increment" type="button"><i class="bi bi-plus"></i></button>
+                        </div>
                     </div>
                     <span class="fw-bold">{{ number_format($order['price'] * $order['quantity'], 2) }}</span>
-                    
                 </div>
             @endforeach
         </div>

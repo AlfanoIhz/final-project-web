@@ -88,9 +88,9 @@
     <div class="row flex-nowrap" style="overflow: hidden;">
         <div class="col-md-2 bg-white d-flex flex-column p-3" style="min-width: 15%;">
             <ul class="nav flex-column sidebar-nav">
-                <li class="nav-item mb-3"><a href="#" class="nav-link active"><i class="bi bi-layout-text-window-reverse"></i> Dashboard</a></li>
-                <li class="nav-item mb-3"><a href="#" class="nav-link">Menu</a></li>
-                <li class="nav-item mb-3"><a href="#" class="nav-link">Sales</a></li>
+                <li class="nav-item mb-3"><a href="{{ route('admin.dashboard') }}" class="nav-link {{ ($title === 'Dashboard') ? 'active' : '' }}"><i class="bi bi-layout-text-window-reverse"></i> Dashboard</a></li>
+                <li class="nav-item mb-3"><a href="{{ route('admin.user-list') }}" class="nav-link {{ ($title === 'Users') ? 'active' : '' }}"><i class="bi bi-people"></i> Users</a></li>
+                <li class="nav-item mb-3"><a href="#" class="nav-link {{ ($title === 'Sales') ? 'active' : '' }}"><i class="bi bi-clipboard-data"></i> Sales</a></li>
             </ul>
         </div>
 
@@ -118,11 +118,12 @@
                 console.error("Menu object is not defined.");
             }
         }
-
     </script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('js/menuDetails.js') }}"></script>
+    <script src="{{ asset('js/alert.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/97216fb713.js" crossorigin="anonymous"></script>
 </body>
 </html>

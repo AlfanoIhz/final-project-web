@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu</title>
+    <title>{{ $title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         html {
             scrollbar-width: none;
@@ -57,6 +57,26 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
+        .item-count {
+            display: flex;
+            align-items: center; 
+        } 
+
+        .count-btn {
+            /* padding: 0.15rem 0.25rem; */
+            font-size: 20px;
+            height: 20px;
+            width: 20px;
+        }
+
+        .input-size {
+            width: 20px;
+            height: 20px;
+            padding: 0.25rem; 
+            font-size: 0.875rem;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -66,8 +86,8 @@
                 <img src="{{ asset('assets/img/caffeine.png') }}" alt="caffeine" class="" style="width:auto; height:35px;">
             </a>
             <ul class="nav mt-4 flex-column">
-                <li class="nav-item mb-3"><a href="{{ route('user.menu') }}" class="nav-link active">Menu</a></li>
-                <li class="nav-item mb-3"><a href="#" class="nav-link">Table Services</a></li>
+                <li class="nav-item mb-3"><a href="{{ route('user.menu') }}" class="nav-link {{ ($title === 'Menu') ? 'active' : '' }}"><script src="https://kit.fontawesome.com/97216fb713.js" crossorigin="anonymous"></script> Menu</a></li>
+                <li class="nav-item mb-3"><a href="#" class="nav-link ">Table Services</a></li>
                 <li class="nav-item mb-3"><a href="#" class="nav-link">Settings</a></li>
             </ul>
             <div class="nav-item dropdown ">
@@ -89,6 +109,8 @@
         </div>
     </div>
     
+    <script src="{{ asset('js/alert.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

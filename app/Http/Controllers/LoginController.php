@@ -91,7 +91,8 @@ class LoginController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'admin',  
+            'role' => 'admin',
+            'status' => 'active',
         ]);
 
         return redirect()->route('admin.login-form')->with('success', 'Account created. You can now log in.');
@@ -99,6 +100,7 @@ class LoginController extends Controller
 
     // Login the user
     public function adminLogin(Request $request) {
+
         // Validate the login request
         $credentials = $request->validate([
             'email' => 'required|email:dns',
@@ -107,17 +109,22 @@ class LoginController extends Controller
 
         // Check credentials and log in the user if they are valid
         if (Auth::attempt($credentials)) {
-            $request ->session()->regenerate();
-            // if (Auth::user()->role === 'admin') {
-            //     return redirect()->route('admin.dashboard');
-            // } elseif (Auth::user()->role === 'customer') {
-            //     return redirect()->route('customer.dashboard');
-            // }
+    
+            // Get the authenticated user
+            $user = Auth::user();
+            
+            // Check if the account is active
+            if ($user->status === 'active') {
+                $request ->session()->regenerate();
 
-            return redirect()->intended('admin/dashboard');
+                return redirect()->intended('admin/dashboard');
+            }else{
+                Auth::logout();
+                return back()->with('loginError', 'Your account is not active, Please contact the administrator to activate your account');
+            }
         }
 
-        return back()->with('loginError', 'Login Failed! Make sure your account is correct!')->withInput($request->only('email'));;
+        return back()->with('loginError', 'Login Failed! Make sure your account is correct!')->withInput($request->only('email'));
     }
 
     public function userRegister(Request $request) {
@@ -134,6 +141,7 @@ class LoginController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'user',
+            'status' => 'pending',
         ]);
 
         return redirect()->route('user.login-form')->with('success', 'Account created. You can now log in.');
@@ -149,13 +157,23 @@ class LoginController extends Controller
 
         // Check credentials and log in the user if they are valid
         if (Auth::attempt($credentials)) {
-            $request ->session()->regenerate();
-            // $user = Auth::user();
-            // dd('User  logged in:', $user, 'Role:', $user->role);
-            return redirect()->route('user.menu');
+            // Get the authenticated user
+            $user = Auth::user();
+            
+            // Check if the account is active
+            if ($user->status === 'active') {
+                $request ->session()->regenerate();
+
+                return redirect()->route('user.menu');
+            }else{
+                Auth::logout();
+                return back()->with('loginError', 'Your account is not active, Please contact the administrator to activate your account');
+            }
+           
         }
 
-        return back()->with('loginError', 'Login Failed! Make sure your account is correct!')->withInput($request->only('email'));;
+        return back()->with('loginError', 'Login Failed! Make sure your account is correct!')->withInput($request->only('email'));
+        
     }
 
     public function logout(Request $request) {

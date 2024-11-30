@@ -5,8 +5,8 @@
             <div class="bg-light p-4 rounded" style="max-width: 1080px; width: 100%;">
                 <div class="row mb-3 mt-2 text-between">
                     <div class="col">
-                        <a href="{{ route('menu.add') }}" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#addMenuModal"><i class="bi bi-plus-square"></i> Add Menu</a>
-                        <button class="btn btn-dark"><i class="bi bi-file-earmark-arrow-up"></i> Export</button>
+                        <a href="{{ route('menu.add') }}" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addMenuModal"><i class="bi bi-plus-square"></i> Add Menu</a>
+                        <!-- <button class="btn btn-dark"><i class="bi bi-file-earmark-arrow-up"></i> Export</button> -->
                     </div>
                     <div class="col">
                         <form class="d-flex" role="search" id="searchForm"  method="GET" action="{{ route('admin.dashboard') }}">

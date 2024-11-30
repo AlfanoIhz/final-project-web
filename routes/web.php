@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/menu-details', [AdminController::class, 'showMenuDetails'])->name('menu.details');
     Route::delete('/admin/destroy-menu/{id}', [AdminController::class, 'destroy'])->name('menu.destroy');
 
+    Route::get('/admin/user-list', [UserController::class, 'index'])->name('admin.user-list');
+    Route::delete('/admin/destroy-user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+    Route::post('/admin/activate-user/{id}', [UserController::class, 'activateUser'])->name('user.activate');
+    Route::post('/admin/deactivate-user/{id}', [UserController::class, 'deactivateUser'])->name('user.deactivate');
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {

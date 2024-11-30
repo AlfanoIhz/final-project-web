@@ -8,10 +8,11 @@ class MenuController extends Controller
 {
     public function index(Request $request)
     {
-        // Ambil semua data menu
+        $title = "Menu";
+        // Ambil search input
          $search = $request->input('searchInput');
 
-        // Fetch menus, applying the search filter if present
+        // Fetch menus, terapkan filter search jika ada
         $menus = MenusModel::query()
         ->when($search, function ($query) use ($search) {
             return $query->where('menu_name', 'LIKE', "%{$search}%")
@@ -21,7 +22,7 @@ class MenuController extends Controller
         $orders = session()->get('order', []); // Dapatkan orders dari session
         $total = array_reduce($orders, fn($sum, $item) => $sum + ($item['price'] * $item['quantity']), 0);
 
-        return view('user.menu-page', compact('menus', 'orders', 'total', 'search'));
+        return view('user.menu-page', compact('menus', 'title', 'orders', 'total', 'search'));
     }
 
     public function addToOrder($id)

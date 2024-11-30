@@ -30,7 +30,7 @@ class AdminController extends Controller
             $menu->formatted_price = $this->formatToRupiah($menu->price);
         }
 
-        return view('admin.admin-dashboard', compact('menus', 'title'));
+        return view('admin.admin-dashboard', compact('menus', 'title', 'search'));
     }
 
     public function addMenu(Request $request)
