@@ -6,14 +6,23 @@ use App\Models\MenusModel;
 
 class MenuController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Ambil semua data menu
-        $menus = MenusModel::all();
+        $title = "Menu";
+        // Ambil search input
+         $search = $request->input('searchInput');
+
+        // Fetch menus, terapkan filter search jika ada
+        $menus = MenusModel::query()
+        ->when($search, function ($query) use ($search) {
+            return $query->where('menu_name', 'LIKE', "%{$search}%")
+                        ->orWhere('description', 'LIKE', "%{$search}%");
+        })->get();
+
         $orders = session()->get('order', []); // Dapatkan orders dari session
         $total = array_reduce($orders, fn($sum, $item) => $sum + ($item['price'] * $item['quantity']), 0);
 
-        return view('user.menu-page', compact('menus', 'orders', 'total'));
+        return view('user.menu-page', compact('menus', 'title', 'orders', 'total', 'search'));
     }
 
     public function addToOrder($id)

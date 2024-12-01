@@ -12,5 +12,15 @@ class UserModel extends Model
     protected $table = 'users';
     protected $guarded = ['id'];
 
-    protected $fillable = ['name', 'email', 'password', 'role'];
+    // protected $fillable = ['name', 'email', 'password', 'role'];
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isUser ()
+    {
+        return $this->role === 'user';
+    }
 }
