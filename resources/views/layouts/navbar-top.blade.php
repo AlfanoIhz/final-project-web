@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light position-fixed w-100">
+<nav class="navbar navbar-expand-lg navbar-light bg-light position-fixed w-100" style="z-index: 2;">
     <div class="container-fluid mx-4">
         <a href="{{ route('landing-page') }}" class="logo">
             <img src="{{ asset('assets/img/caffeine.png') }}" alt="caffeine" class="" style="width:100%; height:35px;">
