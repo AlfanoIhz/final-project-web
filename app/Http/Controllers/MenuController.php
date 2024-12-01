@@ -28,26 +28,42 @@ class MenuController extends Controller
     public function addToOrder($id)
     {
         $menu = MenusModel::find($id);
-
+        
         if (!$menu) {
             return redirect()->back()->with('error', 'Menu not found.');
         }
 
         $order = session()->get('order', []);
-        
         if (isset($order[$id])) {
             $order[$id]['quantity']++;
         } else {
             $order[$id] = [
-                "name" => $menu->menu_name,
-                "price" => $menu->price,
-                "quantity" => 1,
+                'menu_id' => $menu->id,
+                'name' => $menu->menu_name,
+                'price' => $menu->price,
+                'quantity' => 1,
             ];
         }
 
         session()->put('order', $order);
-
         return redirect()->back()->with('success', 'Menu added to order.');
+    }
+
+    public function decreaseFromOrder($id)
+    {
+        $order = session()->get('order', []);
+
+        if (isset($order[$id])) {
+            if ($order[$id]['quantity'] > 1) {
+                $order[$id]['quantity']--;
+            } else {
+                unset($order[$id]);
+            }
+        }
+
+        session()->put('order', $order);
+
+        return redirect()->back()->with('success', 'Menu quantity updated.');
     }
 
     public function showOrder()
@@ -57,4 +73,5 @@ class MenuController extends Controller
 
         return view('order', compact('order', 'total'));
     }
+
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,11 +19,11 @@ use App\Http\Controllers\UserController;
 |
 */
 
-// Route::get('/', function () {
-//     return redirect()->to('/home');
-// });
+Route::get('/', function () {
+    return redirect()->route('landing-page');
+});
 
-Route::get('/', [PageController::class, 'dashboard'])->name('landing-page');
+Route::get('/landing-page', [PageController::class, 'dashboard'])->name('landing-page');
 
 Route::prefix('admin')->group(function () {
     Route::get('/register', [LoginController::class, 'showAdminRegisterForm'])->name('admin.register-form');
@@ -56,6 +57,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/menu', [MenuController::class, 'index'])->name('user.menu');
     Route::post('/menu/add-to-order/{id}', [MenuController::class, 'addToOrder'])->name('menu.addToOrder');
+    Route::post('/menu/remove-from-order/{id}', [MenuController::class, 'decreaseFromOrder'])->name('menu.decreaseFromOrder');
+    Route::post('/menu/place-order', [OrderController::class, 'placeOrder'])->name('order.place');
     Route::get('/orders', [MenuController::class, 'showOrder'])->name('menu.showOrder');
     Route::post('/user-logout', [LoginController::class, 'logout'])->name('user.logout');
 

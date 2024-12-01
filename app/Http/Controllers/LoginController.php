@@ -98,7 +98,7 @@ class LoginController extends Controller
         return redirect()->route('admin.login-form')->with('success', 'Account created. You can now log in.');
     }
 
-    // Login the user
+    // Login admin
     public function adminLogin(Request $request) {
 
         // Validate the login request
@@ -113,14 +113,19 @@ class LoginController extends Controller
             // Get the authenticated user
             $user = Auth::user();
             
-            // Check if the account is active
-            if ($user->status === 'active') {
-                $request ->session()->regenerate();
-
-                return redirect()->intended('admin/dashboard');
-            }else{
+            // Check if the user is an admin
+            if ($user->role === 'admin') {
+                // Check if the account is active
+                if ($user->status === 'active') {
+                    $request->session()->regenerate();
+                    return redirect()->intended('admin/dashboard');
+                } else {
+                    Auth::logout();
+                    return back()->with('loginError', 'Your account is not active, Please contact the administrator to activate your account');
+                }
+            } else {
                 Auth::logout();
-                return back()->with('loginError', 'Your account is not active, Please contact the administrator to activate your account');
+                return back()->with('loginError', 'Login Failed! Make sure your account is correct!.');
             }
         }
 
@@ -160,20 +165,23 @@ class LoginController extends Controller
             // Get the authenticated user
             $user = Auth::user();
             
-            // Check if the account is active
-            if ($user->status === 'active') {
-                $request ->session()->regenerate();
+            if($user->role === 'user') {
+                // Check if the account is active
+                if ($user->status === 'active') {
+                    $request ->session()->regenerate();
 
-                return redirect()->route('user.menu');
+                    return redirect()->route('user.menu');
+                }else{
+                    Auth::logout();
+                    return back()->with('loginError', 'Your account is not active, Please contact the administrator to activate your account');
+                }
             }else{
                 Auth::logout();
-                return back()->with('loginError', 'Your account is not active, Please contact the administrator to activate your account');
+                return back()->with('loginError', 'Login Failed! Make sure your account is correct!');
             }
-           
         }
 
-        return back()->with('loginError', 'Login Failed! Make sure your account is correct!')->withInput($request->only('email'));
-        
+        return back()->with('loginError', 'Login Failed! Make sure your account is correct!')->withInput($request->only('email'));  
     }
 
     public function logout(Request $request) {
@@ -189,7 +197,7 @@ class LoginController extends Controller
         if ($role === 'admin') {
             return redirect()->route('admin.login-form')->with('success', 'You have been logged out.');
         } elseif ($role === 'user') {
-            return redirect()->route('user.login-form')->with('success', 'You have been logged out.');
+            return redirect()->route('landing-page')->with('success', 'You have been logged out.');
         }
     
         return redirect('/')->with('success', 'You have been logged out.');
