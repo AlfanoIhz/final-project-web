@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) { 
             $table->id();
-            $table->foreignId('order_id');
+            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
             $table->enum('payment_method', ['cash', 'transfer']);
             $table->decimal('total', 8, 2);
             $table->boolean('isConfirmed')->default(false);
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payment');
+        Schema::dropIfExists('payments');
     }
 };
